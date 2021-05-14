@@ -17,7 +17,7 @@
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fortnite 2: Fort Harder"
