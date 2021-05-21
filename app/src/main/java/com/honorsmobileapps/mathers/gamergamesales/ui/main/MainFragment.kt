@@ -21,7 +21,8 @@ class MainFragment : Fragment() {
     val gameSaleInfoList: MutableList<GameSaleInfo> = mutableListOf(
         GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
         GameSaleInfo("Among Us Battle Royale", 29.99),
-        GameSaleInfo("Haywire",420.69) //mike are you proud of me
+        GameSaleInfo("Haywire",420.69),
+        GameSaleInfo("Red Dead Rodyushkin", 79.99)
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

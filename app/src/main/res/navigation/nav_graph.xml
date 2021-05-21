@@ -9,5 +9,14 @@
         android:id="@+id/mainFragment"
         android:name="com.honorsmobileapps.mathers.gamergamesales.ui.main.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_addGameFragment"
+            app:destination="@id/addGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addGameFragment"
+        android:name="com.honorsmobileapps.mathers.gamergamesales.AddGameFragment"
+        android:label="fragment_add_game"
+        tools:layout="@layout/fragment_add_game" />
 </navigation>
