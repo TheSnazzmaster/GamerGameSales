@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="wrap_content">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -14,14 +14,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/titleTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fortnite 2: Fort Harder"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
