@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
         val rootView = binding.root
 
 
-        val mAdapter = GameSaleInfoAdapter(gameSaleInfoList)
+        val mAdapter = GameSaleInfoAdapter(viewModel.getGameList())
         binding.RecyclerView.adapter = mAdapter
 
         binding.addItemButton.setOnClickListener {

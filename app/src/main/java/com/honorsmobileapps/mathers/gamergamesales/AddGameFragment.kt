@@ -17,13 +17,6 @@ class AddGameFragment : Fragment() {
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!
 
-    val gameSaleInfoList: MutableList<GameSaleInfo> = mutableListOf(
-        GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
-        GameSaleInfo("Among Us Battle Royale", 29.99),
-        GameSaleInfo("Haywire",420.69),
-        GameSaleInfo("Red Dead Rodyushkin", 79.99)
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +24,7 @@ class AddGameFragment : Fragment() {
         _binding = FragmentAddGameBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val mAdapter = GameSaleInfoAdapter(gameSaleInfoList)
+        val mAdapter = AddGameAdapter(viewModel.getGameList())
         binding.RecyclerView.adapter = mAdapter
 
 

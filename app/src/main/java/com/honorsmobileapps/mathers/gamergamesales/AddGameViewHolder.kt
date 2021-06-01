@@ -8,5 +8,6 @@ class AddGameViewHolder(val binding: AddGameItemLayoutBinding) : RecyclerView.Vi
     private lateinit var currentGameSaleInfo: GameSaleInfo
     fun bindGameSaleInfo(gameSaleInfo: GameSaleInfo){
         currentGameSaleInfo = gameSaleInfo
+        binding.titleTextView2.text=currentGameSaleInfo.name
     }
 }
