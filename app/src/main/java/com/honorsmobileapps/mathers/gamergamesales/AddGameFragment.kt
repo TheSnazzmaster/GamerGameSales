@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.honorsmobileapps.mathers.gamergamesales.databinding.FragmentAddGameBinding
@@ -14,7 +15,8 @@ import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainViewModel
 
 class AddGameFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+//    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!
 
@@ -25,8 +27,9 @@ class AddGameFragment : Fragment() {
         _binding = FragmentAddGameBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val mAdapter = AddGameAdapter(viewModel.getGameList()!!)
+        val mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!)
         binding.RecyclerView.adapter = mAdapter
+
 
         return rootView
     }

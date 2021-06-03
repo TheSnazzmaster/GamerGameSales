@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honorsmobileapps.mathers.gamergamesales.databinding.AddGameItemLayoutBinding
 import com.honorsmobileapps.mathers.gamergamesales.databinding.HomeListItemLayoutBinding
+import kotlinx.android.synthetic.main.add_game_item_layout.view.*
 
 class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>): RecyclerView.Adapter<AddGameViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddGameViewHolder {
@@ -17,6 +18,12 @@ class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>): RecyclerView.Ad
     override fun onBindViewHolder(holder: AddGameViewHolder, position: Int) {
         val currentGameSaleInfo = gameSaleInfoList[position]
         holder.bindGameSaleInfo(currentGameSaleInfo)
+        holder.itemView.addGameButton.setOnClickListener {
+            if(onClickListener!=null){
+                onClickListener!!.onClick(position)
+                viewModel.addGame()
+            }
+        }
     }
 
     override fun getItemCount(): Int {

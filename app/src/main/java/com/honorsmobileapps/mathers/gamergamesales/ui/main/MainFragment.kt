@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,8 @@ import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBindi
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+//    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private var _binding : MainFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -34,7 +36,7 @@ class MainFragment : Fragment() {
         val rootView = binding.root
 
 
-        val mAdapter = GameSaleInfoAdapter(viewModel.getGameList()!!)
+        val mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!)
         binding.RecyclerView.adapter = mAdapter
 
         binding.addItemButton.setOnClickListener {

@@ -20,10 +20,23 @@ class MainViewModel : ViewModel() {
     ))
     val gameSaleInfoList: LiveData<MutableList<GameSaleInfo>>
         get()=_gameSaleInfoList
-    fun getGameList(): MutableList<GameSaleInfo>? {
+    fun getSavedGameList(): MutableList<GameSaleInfo>? {
         return _gameSaleInfoList.value
     }
+
+    private val _onlineGameList = MutableLiveData(mutableListOf(
+        GameSaleInfo("fjortnite",27.99),
+        GameSaleInfo("fjortnite 2",28.99),
+        GameSaleInfo("fjortnite 2 but again",29.99)
+    ))
+    val onlineGameList: LiveData<MutableList<GameSaleInfo>>
+        get()=_onlineGameList
+    fun getOnlineGameList(): MutableList<GameSaleInfo>?{
+        return _onlineGameList.value
+    }
+
     fun addGame(game: GameSaleInfo){
         _gameSaleInfoList.value?.add(game)
     }
+
 }
