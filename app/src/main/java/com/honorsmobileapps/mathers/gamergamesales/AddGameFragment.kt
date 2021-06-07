@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
@@ -13,6 +13,7 @@ import com.honorsmobileapps.mathers.gamergamesales.databinding.FragmentAddGameBi
 import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBinding
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainFragmentDirections
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainViewModel
+import androidx.fragment.app.viewModels as viewModels
 
 class AddGameFragment : Fragment() {
 
@@ -28,9 +29,12 @@ class AddGameFragment : Fragment() {
         _binding = FragmentAddGameBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        val addButtonClickListener: OnClickListener
 
-        val mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!, )
+
+        val mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!) { gameSaleInfo: GameSaleInfo ->
+            viewModel.addGame(gameSaleInfo)
+            Toast.makeText(getActivity(), "help" + gameSaleInfo.name, Toast.LENGTH_SHORT).show()
+        }
         binding.RecyclerView.adapter = mAdapter
 
 

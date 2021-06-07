@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
@@ -28,6 +29,7 @@ class MainFragment : Fragment() {
         GameSaleInfo("Haywire",420.69),
         GameSaleInfo("Red Dead Rodyushkin", 79.99)
     )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,8 +37,8 @@ class MainFragment : Fragment() {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-
-        val mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!)
+        var recyclerViewList = viewModel.getSavedGameList()!!
+        val mAdapter = GameSaleInfoAdapter(recyclerViewList)
         binding.RecyclerView.adapter = mAdapter
 
         binding.addItemButton.setOnClickListener {
@@ -46,8 +48,9 @@ class MainFragment : Fragment() {
         }
 
         viewModel.gameSaleInfoList.observe(viewLifecycleOwner){newList->
-            val mAdapter = GameSaleInfoAdapter(newList)
-            binding.RecyclerView.adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
+            var thing = viewModel.getSavedGameList()!![viewModel.getSavedGameList()!!.size-1].name
+            Toast.makeText(activity,thing,Toast.LENGTH_SHORT).show()
         }
 
         return rootView
@@ -56,6 +59,8 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    fun update(modelList:ArrayList<GameSaleInfo>){
     }
 
 }

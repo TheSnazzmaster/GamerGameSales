@@ -20,13 +20,13 @@ class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>, val clickListene
 
     override fun onBindViewHolder(holder: AddGameViewHolder, position: Int) {
         val currentGameSaleInfo = gameSaleInfoList[position]
-        holder.bindGameSaleInfo(currentGameSaleInfo)
-        holder.itemView.addGameButton.setOnClickListener {
-            if(onClickListener!=null){
+        holder.bindGameSaleInfo(currentGameSaleInfo,clickListener)
+//        holder.itemView.addGameButton.setOnClickListener {
+//            if(onClickListener!=null){
 //                onClickListener!!.onClick(position)
 //                viewModel.addGame()
-            }
-        }
+//            }
+//        }
     }
 
     override fun getItemCount(): Int {
