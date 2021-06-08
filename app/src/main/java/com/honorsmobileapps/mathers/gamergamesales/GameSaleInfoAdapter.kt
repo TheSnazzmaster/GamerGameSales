@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honorsmobileapps.mathers.gamergamesales.databinding.HomeListItemLayoutBinding
 
-class GameSaleInfoAdapter (val gameSaleInfoList: List<GameSaleInfo>): RecyclerView.Adapter<GameSaleInfoViewHolder>(){
+class GameSaleInfoAdapter (val gameSaleInfoList: List<GameSaleInfo>,val removeGameClickListener: (GameSaleInfo) -> Unit, val openInternetClickListener: (GameSaleInfo)->Unit): RecyclerView.Adapter<GameSaleInfoViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameSaleInfoViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = HomeListItemLayoutBinding.inflate(layoutInflater, parent, false)
@@ -14,7 +14,7 @@ class GameSaleInfoAdapter (val gameSaleInfoList: List<GameSaleInfo>): RecyclerVi
 
     override fun onBindViewHolder(holder: GameSaleInfoViewHolder, position: Int) {
         val currentGameSaleInfo = gameSaleInfoList[position]
-        holder.bindGameSaleInfo(currentGameSaleInfo)
+        holder.bindGameSaleInfo(currentGameSaleInfo,removeGameClickListener,openInternetClickListener)
     }
 
     override fun getItemCount(): Int {

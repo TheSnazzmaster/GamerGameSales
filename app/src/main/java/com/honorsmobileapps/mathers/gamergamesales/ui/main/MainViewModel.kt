@@ -36,13 +36,16 @@ class MainViewModel : ViewModel() {
     fun addGame(game: GameSaleInfo){
         _gameSaleInfoList.value?.add(game)
     }
-    fun search(name: String){
+    fun search(name: String){ //dummy search thing
         _onlineGameList.value = mutableListOf(
             GameSaleInfo(name,27.99),
             GameSaleInfo(name + " 2",28.99),
             GameSaleInfo(name + " 2 but again",29.99)
         )
         Log.i("help",_onlineGameList.value.toString())
+    }
+    fun removeGame(game: GameSaleInfo){
+        _gameSaleInfoList.value?.remove(game)
     }
 
 }
