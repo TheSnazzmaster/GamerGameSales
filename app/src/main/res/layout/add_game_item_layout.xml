@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="60dp">
 
     <ImageButton
         android:id="@+id/addGameButton"
@@ -25,4 +25,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/addGameInternetButton"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/addGameButton"
+        app:layout_constraintEnd_toStartOf="@+id/addGameButton"
+        app:layout_constraintTop_toTopOf="@+id/addGameButton"
+        app:srcCompat="@drawable/wikimediaglobe" />
 </androidx.constraintlayout.widget.ConstraintLayout>

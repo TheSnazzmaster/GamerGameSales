@@ -3,14 +3,10 @@ package com.honorsmobileapps.mathers.gamergamesales
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.honorsmobileapps.mathers.gamergamesales.databinding.AddGameItemLayoutBinding
-import com.honorsmobileapps.mathers.gamergamesales.databinding.HomeListItemLayoutBinding
-import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainViewModel
-import kotlinx.android.synthetic.main.add_game_item_layout.view.*
 
-class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>, val clickListener: (GameSaleInfo) -> Unit): RecyclerView.Adapter<AddGameViewHolder>(){
+class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>, val addGameClickListener: (GameSaleInfo) -> Unit, val openInternetClickListener: (GameSaleInfo)->Unit): RecyclerView.Adapter<AddGameViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddGameViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +16,7 @@ class AddGameAdapter (val gameSaleInfoList: List<GameSaleInfo>, val clickListene
 
     override fun onBindViewHolder(holder: AddGameViewHolder, position: Int) {
         val currentGameSaleInfo = gameSaleInfoList[position]
-        holder.bindGameSaleInfo(currentGameSaleInfo,clickListener)
+        holder.bindGameSaleInfo(currentGameSaleInfo,addGameClickListener,openInternetClickListener)
 //        holder.itemView.addGameButton.setOnClickListener {
 //            if(onClickListener!=null){
 //                onClickListener!!.onClick(position)

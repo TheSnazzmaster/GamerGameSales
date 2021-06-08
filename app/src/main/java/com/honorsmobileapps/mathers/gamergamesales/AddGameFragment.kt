@@ -1,5 +1,7 @@
 package com.honorsmobileapps.mathers.gamergamesales
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +30,15 @@ class AddGameFragment : Fragment() {
         _binding = FragmentAddGameBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
+        val openWebsiteClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
+            if(gameSaleInfo.url!="") {
+                val websiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(gameSaleInfo.url))
+                this.context?.startActivity(websiteIntent)
+            }
+        }
 
-        var mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!) { gameSaleInfo: GameSaleInfo ->
+
+        var mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!,openWebsiteClickListener) { gameSaleInfo: GameSaleInfo ->
             viewModel.addGame(gameSaleInfo)
             Toast.makeText(getActivity(), "help" + gameSaleInfo.name, Toast.LENGTH_SHORT).show()
         }
@@ -42,14 +51,16 @@ class AddGameFragment : Fragment() {
 
         }
 
+        val addGameClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
+            viewModel.addGame(gameSaleInfo)
+            mAdapter.notifyDataSetChanged()
+        }
+
         viewModel.onlineGameList.observe(viewLifecycleOwner){newList->
             mAdapter.notifyDataSetChanged()
             var thing = viewModel.getOnlineGameList()!![viewModel.getOnlineGameList()!!.size-1].name
             Toast.makeText(activity,thing,Toast.LENGTH_SHORT).show()
-            mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!) { gameSaleInfo: GameSaleInfo ->
-                viewModel.addGame(gameSaleInfo)
-                mAdapter.notifyDataSetChanged()
-            }
+            mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!,addGameClickListener,openWebsiteClickListener)
             binding.RecyclerView.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
 

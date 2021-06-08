@@ -10,13 +10,7 @@ import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfo
 import java.security.AccessController.getContext
 
 class MainViewModel : ViewModel() {
-//    private val gameSaleInfoList: MutableList<GameSaleInfo> = mutableListOf(
-//        GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
-//        GameSaleInfo("Among Us Battle Royale", 29.99),
-//        GameSaleInfo("Haywire",420.69),
-//        GameSaleInfo("Red Dead Rodyushkin", 79.99)
-//    )
-    private var _gameSaleInfoList = MutableLiveData(mutableListOf(
+    private var _gameSaleInfoList = MutableLiveData(mutableListOf( //dummy data
         GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
         GameSaleInfo("Among Us Battle Royale", 29.99),
         GameSaleInfo("Haywire",420.69),
@@ -28,8 +22,8 @@ class MainViewModel : ViewModel() {
         return _gameSaleInfoList.value
     }
 
-    private var _onlineGameList = MutableLiveData(mutableListOf(
-        GameSaleInfo("fjortnite",27.99),
+    private var _onlineGameList = MutableLiveData(mutableListOf( //dummy data
+        GameSaleInfo("fjortnite",27.99, "https://www.microsoft.com/en-us/p/grand-theft-gangsters/9nq5hr909vqh?activetab=pivot:overviewtab"),
         GameSaleInfo("fjortnite 2",28.99),
         GameSaleInfo("fjortnite 2 but again",29.99)
     ))
