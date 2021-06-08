@@ -22,6 +22,7 @@ class AddGameFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!
+    private var searchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,13 +32,16 @@ class AddGameFragment : Fragment() {
         val rootView = binding.root
 
 
-
         val mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!) { gameSaleInfo: GameSaleInfo ->
             viewModel.addGame(gameSaleInfo)
             Toast.makeText(getActivity(), "help" + gameSaleInfo.name, Toast.LENGTH_SHORT).show()
         }
         binding.RecyclerView.adapter = mAdapter
 
+        binding.searchButton.setOnClickListener {
+            viewModel.search(binding.searchEditText.text.toString())
+            (binding.RecyclerView.adapter as AddGameAdapter).notifyDataSetChanged()
+        }
 
         return rootView
     }
