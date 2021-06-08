@@ -7,7 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfo
+import org.jsoup.Jsoup
 import java.security.AccessController.getContext
+import kotlin.concurrent.thread
 
 class MainViewModel : ViewModel() {
     private var _gameSaleInfoList = MutableLiveData(mutableListOf( //dummy data
@@ -37,12 +39,33 @@ class MainViewModel : ViewModel() {
         _gameSaleInfoList.value?.add(game)
     }
     fun search(name: String){ //dummy search thing
-        _onlineGameList.value = mutableListOf(
-            GameSaleInfo(name,27.99),
-            GameSaleInfo(name + " 2",28.99),
-            GameSaleInfo(name + " 2 but again",29.99)
-        )
-        Log.i("help",_onlineGameList.value.toString())
+//        _onlineGameList.value = mutableListOf(
+//            GameSaleInfo(name,27.99),
+//            GameSaleInfo(name + " 2",28.99),
+//            GameSaleInfo(name + " 2 but again",29.99)
+//        )
+//        Log.i("help",_onlineGameList.value.toString())
+
+        thread{
+            name.replace(' ','+')
+            val resultsPage = Jsoup.connect("https://www.microsoft.com/en-us/search/shop/games?q=$name").get()
+            val gameTitleElements = resultsPage.getElementsByClass("c-subheading-6")
+            val gameContainerElements = resultsPage.getElementsByClass("m-channel-placement-item")
+
+            var resultsList = mutableListOf<GameSaleInfo>()
+//            for(element in gameTitleElements.subList(0,20)){
+//                resultsList.add(GameSaleInfo(element.text()))
+//            }
+//
+//            var gameUrlList = mutableListOf<String>()
+//            for(element in gameContainerElements){
+//                gameUrlList.add(element.children()[0].attr("href"))
+//            }
+            for(i in 0..20){
+                resultsList.add(GameSaleInfo(gameTitleElements[i].text(),url="https://microsoft.com"+gameContainerElements[i].children()[0].attr("href")))
+            }
+            _onlineGameList.postValue(resultsList)
+        }
     }
     fun removeGame(game: GameSaleInfo){
         _gameSaleInfoList.value?.remove(game)

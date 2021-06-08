@@ -3,6 +3,7 @@ package com.honorsmobileapps.mathers.gamergamesales
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.honorsmobileapps.mathers.gamergamesales.databinding.FragmentAddGameBinding
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainViewModel
+import org.jsoup.Jsoup
+import kotlin.concurrent.thread
 
 class AddGameFragment : Fragment() {
 
@@ -21,7 +24,6 @@ class AddGameFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!
-    private var searchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +68,7 @@ class AddGameFragment : Fragment() {
 
         }
 
+
         return rootView
     }
-
 }
