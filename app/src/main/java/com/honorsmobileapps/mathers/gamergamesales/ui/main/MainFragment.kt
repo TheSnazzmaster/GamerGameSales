@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
@@ -19,7 +20,7 @@ import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBindi
 class MainFragment : Fragment() {
 
 //    private lateinit var viewModel: MainViewModel
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private var _binding : MainFragmentBinding? = null
     private val binding get() = _binding!!
 

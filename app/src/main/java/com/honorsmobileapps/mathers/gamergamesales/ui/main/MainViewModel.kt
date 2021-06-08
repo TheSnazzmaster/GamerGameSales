@@ -1,6 +1,7 @@
 package com.honorsmobileapps.mathers.gamergamesales.ui.main
 
 import android.app.PendingIntent.getActivity
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,6 +41,7 @@ class MainViewModel : ViewModel() {
 
     fun addGame(game: GameSaleInfo){
         _gameSaleInfoList.value?.add(game)
+        Log.i("help",_gameSaleInfoList.value.toString())
     }
 
 }

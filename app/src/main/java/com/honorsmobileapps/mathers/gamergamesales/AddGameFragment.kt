@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
@@ -18,7 +19,7 @@ import androidx.fragment.app.viewModels as viewModels
 class AddGameFragment : Fragment() {
 
 //    private lateinit var viewModel: MainViewModel
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!
 
