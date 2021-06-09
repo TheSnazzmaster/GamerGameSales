@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         Log.i("help","super load")
         viewModel.assignGameList(getGamesFromPreferences())
+        Toast.makeText(this,"Updating price info...",Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {

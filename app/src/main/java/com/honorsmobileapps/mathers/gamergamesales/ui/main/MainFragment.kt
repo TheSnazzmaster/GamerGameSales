@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -59,6 +60,15 @@ class MainFragment : Fragment() {
             rootView.findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddGameFragment()
             )
+            Log.i("help",viewModel.getSavedGameList().toString())
+        }
+
+        binding.createDummyButton.setOnClickListener {
+            viewModel.rawAddGame(GameSaleInfo("Celeste",0.0,"https://www.microsoft.com/en-us/p/celeste/bwmql2rpwbhb","",false))
+            mAdapter.notifyDataSetChanged()
+            mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
+            binding.RecyclerView.adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
         }
 
         viewModel.gameSaleInfoList.observe(viewLifecycleOwner){newList->
@@ -66,37 +76,31 @@ class MainFragment : Fragment() {
             mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
             binding.RecyclerView.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
+            viewModel.updateGameSaleInfoPrices()
             Log.i("help", "save")
+            Log.i("help","real"+viewModel.getSavedGameList().toString())
+
+            var thing = mutableListOf(GameSaleInfo("Celeste",0.0,"https://www.microsoft.com/en-us/p/celeste/bwmql2rpwbhb","",false))
+            viewModel.updatePrices(thing)
+            Log.i("help",thing.toString())
         }
 
-        binding.saveButton.setOnClickListener{
-            saveGamesToPreferences(viewModel.getSavedGameList()!!)
+        viewModel.updateRecyclerView.observe(viewLifecycleOwner){
+            if(it){
+                viewModel.resetUpdateVariable()
+                mAdapter.notifyDataSetChanged()
+                mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
+                binding.RecyclerView.adapter = mAdapter
+                mAdapter.notifyDataSetChanged()
+                Toast.makeText(activity,"Updated!",Toast.LENGTH_SHORT).show()
+            }
         }
-        binding.loadButton.setOnClickListener {
-            viewModel.assignGameList(getGamesFromPreferences())
-        }
+
         return rootView
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    //this saving stuff was learned from https://www.youtube.com/watch?v=8zPkbV4INGA&ab_channel=ResoCoderResoCoder
-    //well i say "learned" but i really mean "yoinked", but i think i understand it well enough to use it
-    fun saveGamesToPreferences(games: List<GameSaleInfo>){
-        val prefEditor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        val jsonString = Gson().toJson(games)
-        prefEditor.putString("games",jsonString).apply()
-    }
-    fun getGamesFromPreferences(): MutableList<GameSaleInfo>{
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val jsonString = preferences.getString("games",null)
-
-        return if (jsonString!=null)
-            Gson().fromJson(jsonString,object: TypeToken<MutableList<GameSaleInfo>>(){}.type)
-        else
-            mutableListOf()
     }
 }

@@ -14,5 +14,14 @@ class GameSaleInfoViewHolder(val binding: HomeListItemLayoutBinding) : RecyclerV
         binding.homeInternetButton.setOnClickListener{openInternetClickListener(gameSaleInfo)}
         if(currentGameSaleInfo.imageUrl!="")
             Picasso.get().load(currentGameSaleInfo.imageUrl).into(binding.homeGameImageView)
+        if(currentGameSaleInfo.isOnSale){
+            binding.pricingTextView.text = "ON SALE - $${currentGameSaleInfo.price}"
+        }
+        else if(currentGameSaleInfo.price==0.0){
+            binding.pricingTextView.text = "Free - just download it already"
+        }
+        else{
+            binding.pricingTextView.text = "Not on sale - $${currentGameSaleInfo.price}"
+        }
     }
 }
