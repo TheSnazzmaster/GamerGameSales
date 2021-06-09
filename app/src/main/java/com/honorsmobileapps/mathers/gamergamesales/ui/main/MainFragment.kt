@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -21,17 +20,9 @@ import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBindi
 
 class MainFragment : Fragment() {
 
-//    private lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by activityViewModels()
     private var _binding : MainFragmentBinding? = null
     private val binding get() = _binding!!
-
-    val gameSaleInfoList: MutableList<GameSaleInfo> = mutableListOf(
-        GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
-        GameSaleInfo("Among Us Battle Royale", 29.99),
-        GameSaleInfo("Haywire",420.69),
-        GameSaleInfo("Red Dead Rodyushkin", 79.99)
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +48,7 @@ class MainFragment : Fragment() {
         mAdapter = GameSaleInfoAdapter(recyclerViewList,removeGameClickListener,openWebsiteClickListener)
         binding.RecyclerView.adapter = mAdapter
 
-        binding.addItemButton.setOnClickListener {
+        binding.toAddGameFragmentButton.setOnClickListener {
             rootView.findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddGameFragment()
             )
@@ -65,8 +56,6 @@ class MainFragment : Fragment() {
 
         viewModel.gameSaleInfoList.observe(viewLifecycleOwner){newList->
             mAdapter.notifyDataSetChanged()
-            var thing = viewModel.getSavedGameList()!![viewModel.getSavedGameList()!!.size-1].name
-            Toast.makeText(activity,thing,Toast.LENGTH_SHORT).show()
             mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
             binding.RecyclerView.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
@@ -78,8 +67,6 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-    fun update(modelList:ArrayList<GameSaleInfo>){
     }
 
 }

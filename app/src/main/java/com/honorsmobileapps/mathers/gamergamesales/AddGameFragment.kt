@@ -42,12 +42,10 @@ class AddGameFragment : Fragment() {
 
         var mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!,openWebsiteClickListener) { gameSaleInfo: GameSaleInfo ->
             viewModel.addGame(gameSaleInfo)
-            Toast.makeText(getActivity(), "help" + gameSaleInfo.name, Toast.LENGTH_SHORT).show()
         }
         binding.RecyclerView.adapter = mAdapter
 
         binding.searchButton.setOnClickListener {
-            Toast.makeText(getActivity(),"please work" + binding.searchEditText.text.toString(),Toast.LENGTH_SHORT).show()
             viewModel.search(binding.searchEditText.text.toString())
             mAdapter.notifyDataSetChanged()
 
@@ -60,12 +58,15 @@ class AddGameFragment : Fragment() {
 
         viewModel.onlineGameList.observe(viewLifecycleOwner){newList->
             mAdapter.notifyDataSetChanged()
-            var thing = viewModel.getOnlineGameList()!![viewModel.getOnlineGameList()!!.size-1].name
-            Toast.makeText(activity,thing,Toast.LENGTH_SHORT).show()
             mAdapter = AddGameAdapter(viewModel.getOnlineGameList()!!,addGameClickListener,openWebsiteClickListener)
             binding.RecyclerView.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
 
+        }
+
+        viewModel.toastButFromViewModel.observe(viewLifecycleOwner){newToastMessage->
+            if(newToastMessage!="")
+                Toast.makeText(activity,newToastMessage,Toast.LENGTH_SHORT).show()
         }
 
 

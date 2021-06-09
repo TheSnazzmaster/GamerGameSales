@@ -37,8 +37,18 @@ class MainViewModel : ViewModel() {
         return _onlineGameList.value
     }
 
+    private var _toastButFromViewModel = MutableLiveData("")
+    val toastButFromViewModel: LiveData<String>
+        get()=_toastButFromViewModel
+
     fun addGame(game: GameSaleInfo){
-        _gameSaleInfoList.value?.add(game)
+        if(_gameSaleInfoList.value?.contains(game) == false) {
+            _gameSaleInfoList.value?.add(game)
+            _toastButFromViewModel.value = "Saved " + game.name + " to list!"
+        }
+        else{
+            _toastButFromViewModel.value = game.name + " is already saved to list"
+        }
     }
     fun search(name: String){ //dummy search thing
 //        _onlineGameList.value = mutableListOf(
@@ -48,23 +58,35 @@ class MainViewModel : ViewModel() {
 //        )
 //        Log.i("help",_onlineGameList.value.toString())
 
+        _toastButFromViewModel.value="Searching for $name..."
         thread{
             name.replace(' ','+')
             val resultsPage = Jsoup.connect("https://www.microsoft.com/en-us/search/shop/games?q=$name&devicetype=xbox").get()
             val gameTitleElements = resultsPage.getElementsByClass("c-subheading-6")
             val gameContainerElements = resultsPage.getElementsByClass("m-channel-placement-item")
-            val gameImageElements = resultsPage.getElementsByClass("lazyloaded")
+            val gameImageElements = resultsPage.getElementsByClass("c-channel-placement-image")
 
-            var resultsList = mutableListOf<GameSaleInfo>()
-            var upperBound = 20 //for some reason it was being weird about me importing min
-            if(20>gameTitleElements.size)
-                upperBound = gameTitleElements.size
-            for(i in 0..upperBound){
-                resultsList.add(GameSaleInfo(gameTitleElements[i].text(),
-                    url="https://microsoft.com"+gameContainerElements[i].children()[0].attr("href"),
-                    imageUrl = gameImageElements[i].absUrl("src")))
+            if(gameTitleElements.size>0) {
+                var resultsList = mutableListOf<GameSaleInfo>()
+                var upperBound = 20 //for some reason it was being weird about me importing min
+                if (20 > gameTitleElements.size)
+                    upperBound = gameTitleElements.size-1
+                for (i in 0..upperBound) {
+                    resultsList.add(
+                        GameSaleInfo(
+                            gameTitleElements[i].text(),
+                            url = "https://microsoft.com" + gameContainerElements[i].children()[0].attr(
+                                "href"
+                            ),
+                            imageUrl = gameImageElements[i].children()[0].children()[0].absUrl("data-srcset")
+                        )
+                    )
+                }
+                _onlineGameList.postValue(resultsList)
             }
-            _onlineGameList.postValue(resultsList)
+            else{
+                _toastButFromViewModel.postValue("English, please")
+            }
         }
     }
     fun removeGame(game: GameSaleInfo){
