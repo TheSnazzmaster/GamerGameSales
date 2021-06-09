@@ -21,10 +21,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Fortnite 2: Fort Harder"
-        android:textSize="24dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/addGameInternetButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addGameGameImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -36,4 +36,13 @@
         app:layout_constraintEnd_toStartOf="@+id/addGameButton"
         app:layout_constraintTop_toTopOf="@+id/addGameButton"
         app:srcCompat="@drawable/wikimediaglobe" />
+
+    <ImageView
+        android:id="@+id/addGameGameImageView"
+        android:layout_width="40dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/celesteimage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

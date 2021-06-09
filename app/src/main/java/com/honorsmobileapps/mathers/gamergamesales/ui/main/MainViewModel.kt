@@ -1,12 +1,14 @@
 package com.honorsmobileapps.mathers.gamergamesales.ui.main
 
 import android.app.PendingIntent.getActivity
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfo
+import com.squareup.picasso.Picasso
 import org.jsoup.Jsoup
 import java.security.AccessController.getContext
 import kotlin.concurrent.thread
@@ -48,21 +50,19 @@ class MainViewModel : ViewModel() {
 
         thread{
             name.replace(' ','+')
-            val resultsPage = Jsoup.connect("https://www.microsoft.com/en-us/search/shop/games?q=$name").get()
+            val resultsPage = Jsoup.connect("https://www.microsoft.com/en-us/search/shop/games?q=$name&devicetype=xbox").get()
             val gameTitleElements = resultsPage.getElementsByClass("c-subheading-6")
             val gameContainerElements = resultsPage.getElementsByClass("m-channel-placement-item")
+            val gameImageElements = resultsPage.getElementsByClass("lazyloaded")
 
             var resultsList = mutableListOf<GameSaleInfo>()
-//            for(element in gameTitleElements.subList(0,20)){
-//                resultsList.add(GameSaleInfo(element.text()))
-//            }
-//
-//            var gameUrlList = mutableListOf<String>()
-//            for(element in gameContainerElements){
-//                gameUrlList.add(element.children()[0].attr("href"))
-//            }
-            for(i in 0..20){
-                resultsList.add(GameSaleInfo(gameTitleElements[i].text(),url="https://microsoft.com"+gameContainerElements[i].children()[0].attr("href")))
+            var upperBound = 20 //for some reason it was being weird about me importing min
+            if(20>gameTitleElements.size)
+                upperBound = gameTitleElements.size
+            for(i in 0..upperBound){
+                resultsList.add(GameSaleInfo(gameTitleElements[i].text(),
+                    url="https://microsoft.com"+gameContainerElements[i].children()[0].attr("href"),
+                    imageUrl = gameImageElements[i].absUrl("src")))
             }
             _onlineGameList.postValue(resultsList)
         }
