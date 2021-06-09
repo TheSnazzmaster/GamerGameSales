@@ -20,7 +20,6 @@ import kotlin.concurrent.thread
 
 class AddGameFragment : Fragment() {
 
-//    private lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by activityViewModels()
     private var _binding: FragmentAddGameBinding? = null
     private val binding get() = _binding!!

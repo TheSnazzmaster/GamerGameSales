@@ -2,6 +2,7 @@ package com.honorsmobileapps.mathers.gamergamesales.ui.main
 
 import android.app.PendingIntent.getActivity
 import android.os.Build
+import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -92,5 +93,7 @@ class MainViewModel : ViewModel() {
     fun removeGame(game: GameSaleInfo){
         _gameSaleInfoList.value?.remove(game)
     }
-
+    fun assignGameList(games: MutableList<GameSaleInfo>){
+        _gameSaleInfoList.postValue(games)
+    }
 }
