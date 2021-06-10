@@ -31,15 +31,7 @@ class MainViewModel : ViewModel() {
     }
 
     private var _onlineGameList = MutableLiveData(
-        mutableListOf( //dummy data
-            GameSaleInfo(
-                "fjortnite",
-                27.99,
-                "https://www.microsoft.com/en-us/p/grand-theft-gangsters/9nq5hr909vqh?activetab=pivot:overviewtab"
-            ),
-            GameSaleInfo("fjortnite 2", 28.99),
-            GameSaleInfo("fjortnite 2 but again", 29.99)
-        )
+        mutableListOf<GameSaleInfo>()
     )
     val onlineGameList: LiveData<MutableList<GameSaleInfo>>
         get() = _onlineGameList
@@ -56,22 +48,24 @@ class MainViewModel : ViewModel() {
     val updateRecyclerView: LiveData<Boolean>
         get() = _updateRecyclerView
 
-    fun resetUpdateVariable(){
+    fun resetUpdateVariable() {
         _updateRecyclerView.value = false
     }
 
     fun addGame(game: GameSaleInfo) {
         if (_gameSaleInfoList.value?.contains(game) == false) {
-            getPrice(game)
             _gameSaleInfoList.value?.add(game)
+            getPrice(game)
             _toastButFromViewModel.value = "Saved " + game.name + " to list!"
         } else {
             _toastButFromViewModel.value = game.name + " is already saved to list"
         }
     }
 
-    fun rawAddGame(game: GameSaleInfo){
-        _gameSaleInfoList.value?.add(game)
+    fun addDummyGame() {
+        _gameSaleInfoList.value?.add(GameSaleInfo("Celeste",4.99,
+            "https://www.microsoft.com/en-us/p/celeste/bwmql2rpwbhb",
+            "https://store-images.s-microsoft.com/image/apps.21257.71633162879241707.7cf18b3b-9fa5-486f-9a68-067f06d50bf1.8f7909cf-d9a5-44aa-9901-2635255ab2ee?w=162&h=300&q=90&mode=scale",true))
     }
 
     fun search(name: String) { //dummy search thing
@@ -105,6 +99,7 @@ class MainViewModel : ViewModel() {
                         ),
                         imageUrl = gameImageElements[i].children()[0].children()[0].absUrl("data-srcset")
                     )
+                    getPrice(newGame)
                     resultsList.add(newGame)
                 }
                 _onlineGameList.postValue(resultsList)
@@ -122,66 +117,47 @@ class MainViewModel : ViewModel() {
         _gameSaleInfoList.postValue(games)
     }
 
-    fun getPrice(game: GameSaleInfo) {
+    fun getPrice(game: GameSaleInfo, updateRecyclerView: Boolean = false) {
         thread {
             val gamePage = Jsoup.connect(game.url).get()
             var priceText = gamePage.getElementById("productPrice")
                 .children()[0].children()[0].children()[0].children()[0].text()
-//            if (priceText != "Free") {
-                var price = priceText.substring(1 until priceText.length).toDouble()
-                var saleStatus: Boolean
+            if (priceText != "Free") {
                 try {
-                    saleStatus = gamePage.getElementById("productPrice")
-                        .children()[0].children()[0].children()[0].children()[2].hasClass("price-disclaimer")
-                    priceText = gamePage.getElementById("productPrice")
-                        .children()[0].children()[0].children()[0].children()[2].children()[0].text()
-                    price = priceText.substring(1 until priceText.length - 1).toDouble()
-                } catch (e: Exception) {
-                    saleStatus = false
+                    var price = priceText.substring(1 until priceText.length).toDouble()
+                    var saleStatus: Boolean
+                    try {
+                        saleStatus = gamePage.getElementById("productPrice")
+                            .children()[0].children()[0].children()[0].children()[2].hasClass("price-disclaimer")
+                        priceText = gamePage.getElementById("productPrice")
+                            .children()[0].children()[0].children()[0].children()[2].children()[0].text()
+                        price = priceText.substring(1 until priceText.length - 1).toDouble()
+                    } catch (e: Exception) {
+                        saleStatus = false
+                    }
+                    game.price = price
+                    game.isOnSale = saleStatus
+                    if(updateRecyclerView)
+                        _updateRecyclerView.postValue(true)
                 }
-                game.price = price
-                game.isOnSale = saleStatus
-//            }
-//            else {
-//                game.price = 0.0
-//                game.isOnSale = false
-//            }
+                catch(e: Exception){ //in the case that the game is unreleased, or not sold separately
+                    game.price = -1.0
+                    game.isOnSale = false
+                }
+            } else {
+                game.price = 0.0
+                game.isOnSale = false
+            }
         }
     }
 
     fun updatePrices(games: MutableList<GameSaleInfo>) {
         for (game in games) {
-            getPrice(game)
+            getPrice(game,true)
         }
     }
 
     fun updateGameSaleInfoPrices() {
-        for(game in _gameSaleInfoList.value!!) {
-            thread {
-                val gamePage = Jsoup.connect(game.url).get()
-                var priceText = gamePage.getElementById("productPrice")
-                    .children()[0].children()[0].children()[0].children()[0].text()
-//            if (priceText != "Free") {
-                var price = priceText.substring(1 until priceText.length).toDouble()
-                var saleStatus: Boolean
-                try {
-                    saleStatus = gamePage.getElementById("productPrice")
-                        .children()[0].children()[0].children()[0].children()[2].hasClass("price-disclaimer")
-                    priceText = gamePage.getElementById("productPrice")
-                        .children()[0].children()[0].children()[0].children()[2].children()[0].text()
-                    price = priceText.substring(1 until priceText.length - 1).toDouble()
-                } catch (e: Exception) {
-                    saleStatus = false
-                }
-                game.price = price
-                game.isOnSale = saleStatus
-                _updateRecyclerView.postValue(true)
-//            }
-//            else {
-//                game.price = 0.0
-//                game.isOnSale = false
-//            }
-            }
-        }
+        updatePrices(_gameSaleInfoList.value!!)
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MainTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#434343</item>
+        <item name="colorPrimaryDark">#2a2a2a</item>
+        <item name="colorAccent">#a2a2a2</item>
+    </style>
+    <style name="TextViewStyle">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+    <style name="FragmentStyle">
+        <item name="android:background">#353535</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+    </style>
+<!--    <style name="ButtonStyle">-->
+<!--        <item name="android:layout_marginLeft">4dp</item>-->
+<!--        <item name="android:layout_marginRight">4dp</item>-->
+<!--        <item name="android:layout_marginTop">4dp</item>-->
+<!--        <item name="android:layout_marginBottom">4dp</item>-->
+<!--        <item name="android:tint">@color/textColor</item>-->
+<!--        <item name="android:backgroundTint">#2a2a2a</item>-->
+<!--    </style>-->
+</resources>

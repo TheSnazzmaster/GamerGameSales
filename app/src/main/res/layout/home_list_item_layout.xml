@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageButton
+        android:theme="@style/ButtonStyle"
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,8 +19,11 @@
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="Fortnite 2: Fort Harder"
         android:textSize="20sp"
+        android:theme="@style/TextViewStyle"
         app:layout_constraintBottom_toTopOf="@+id/pricingTextView"
         app:layout_constraintEnd_toStartOf="@+id/homeInternetButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -27,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:theme="@style/ButtonStyle"
         android:id="@+id/homeInternetButton"
         android:layout_width="60dp"
         android:layout_height="0dp"
@@ -46,6 +51,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
+        android:theme="@style/TextViewStyle"
         android:id="@+id/pricingTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

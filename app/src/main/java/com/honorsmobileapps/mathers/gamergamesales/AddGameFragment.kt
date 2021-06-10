@@ -68,6 +68,10 @@ class AddGameFragment : Fragment() {
                 Toast.makeText(activity,newToastMessage,Toast.LENGTH_SHORT).show()
         }
 
+        binding.toHomeImageButton.setOnClickListener {
+            rootView.findNavController().popBackStack()
+        }
+
 
         return rootView
     }

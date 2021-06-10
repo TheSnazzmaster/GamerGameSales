@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageButton
+        android:theme="@style/ButtonStyle"
         android:id="@+id/addGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +18,7 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <TextView
+        android:theme="@style/TextViewStyle"
         android:id="@+id/titleTextView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:theme="@style/ButtonStyle"
         android:id="@+id/addGameInternetButton"
         android:layout_width="60dp"
         android:layout_height="0dp"

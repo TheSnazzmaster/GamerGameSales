@@ -2,13 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/FragmentStyle"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddGameFragment" >
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:theme="@style/ButtonStyle"
+        android:id="@+id/toHomeImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="?attr/actionModeCloseDrawable"
@@ -34,18 +36,20 @@
     </LinearLayout>
 
     <EditText
+        android:theme="@style/TextViewStyle"
         android:id="@+id/searchEditText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
-        android:hint="search or decease"
+        android:hint="Search for a game"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/searchButton"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/toHomeImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:theme="@style/ButtonStyle"
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

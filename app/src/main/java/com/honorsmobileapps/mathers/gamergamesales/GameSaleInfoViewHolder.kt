@@ -1,5 +1,6 @@
 package com.honorsmobileapps.mathers.gamergamesales
 
+import android.graphics.Color
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.honorsmobileapps.mathers.gamergamesales.databinding.HomeListItemLayoutBinding
@@ -16,12 +17,19 @@ class GameSaleInfoViewHolder(val binding: HomeListItemLayoutBinding) : RecyclerV
             Picasso.get().load(currentGameSaleInfo.imageUrl).into(binding.homeGameImageView)
         if(currentGameSaleInfo.isOnSale){
             binding.pricingTextView.text = "ON SALE - $${currentGameSaleInfo.price}"
+            binding.pricingTextView.setTextColor(Color.RED)
+        }
+        else if(currentGameSaleInfo.price<0.0){
+            binding.pricingTextView.text = "Pricing info not available"
+            binding.pricingTextView.setTextColor(Color.parseColor("#dcdcdc"))
         }
         else if(currentGameSaleInfo.price==0.0){
-            binding.pricingTextView.text = "Free - just download it already"
+            binding.pricingTextView.text = "Free"
+            binding.pricingTextView.setTextColor(Color.parseColor("#dcdcdc"))
         }
         else{
             binding.pricingTextView.text = "Not on sale - $${currentGameSaleInfo.price}"
+            binding.pricingTextView.setTextColor(Color.parseColor("#dcdcdc"))
         }
     }
 }
