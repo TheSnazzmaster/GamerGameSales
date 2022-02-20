@@ -78,6 +78,7 @@ class MainViewModel : ViewModel() {
 
         _toastButFromViewModel.value = "Searching for $name..."
         thread {
+            Log.i("help","search link = https://www.microsoft.com/en-us/search/shop/games?q=$name&devicetype=xbox")
             name.replace(' ', '+')
             val resultsPage =
                 Jsoup.connect("https://www.microsoft.com/en-us/search/shop/games?q=$name&devicetype=xbox")
@@ -92,11 +93,10 @@ class MainViewModel : ViewModel() {
                 if (20 > gameTitleElements.size)
                     upperBound = gameTitleElements.size - 1
                 for (i in 0..upperBound) {
-                    var newGame = GameSaleInfo(
+                    var newGame = GameSaleInfo( // /en-us/p/celeste/bwmql2rpwbhb https://www.xbox.com/en-us/games/store
                         gameTitleElements[i].text(),
-                        url = "https://microsoft.com" + gameContainerElements[i].children()[0].attr(
-                            "href"
-                        ),
+//                        url = "https://microsoft.com" + gameContainerElements[i].children()[0].attr("href"), // version that went with old xbox store
+                        url = "https://www.xbox.com/en-us/games/store" + gameContainerElements[i].children()[0].attr("href").substring(8),
                         imageUrl = gameImageElements[i].children()[0].children()[0].absUrl("data-srcset")
                     )
                     getPrice(newGame)
@@ -119,19 +119,38 @@ class MainViewModel : ViewModel() {
 
     fun getPrice(game: GameSaleInfo, updateRecyclerView: Boolean = false) {
         thread {
+            Log.i("help",game.url)
             val gamePage = Jsoup.connect(game.url).get()
-            var priceText = gamePage.getElementById("productPrice")
-                .children()[0].children()[0].children()[0].children()[0].text()
+//            var priceText = gamePage.getElementById("productPrice")
+//                .children()[0].children()[0].children()[0].children()[0].text()
+            var thing1 = gamePage.getElementsByClass("ProductDetailsHeader-module__showOnMobileView___XQCPo ProductDetailsHeader-module__price___2Gqs8")
+            Log.i("help","among us sus sussy sussy amogn ussysa suss amogn suss susyssusysyss "+thing1.toString())
+            var priceText = "among us";
+            if(thing1.size>0) {
+                priceText = thing1[0].children()[0].text()
+            }
+            else{
+                priceText = "among us"
+            }
+            Log.i("help","el susso gusso " + thing1.size)
             if (priceText != "Free") {
                 try {
-                    var price = priceText.substring(1 until priceText.length).toDouble()
-                    var saleStatus: Boolean
+                    var sussyThing = priceText.substring(1 until priceText.length)
+                    if(sussyThing[sussyThing.length-1]=='+'){
+                        sussyThing = sussyThing.substring(0 until priceText.length-2)
+                    }
+                    var price = sussyThing.toDouble()
+                    var saleStatus = false
                     try {
-                        saleStatus = gamePage.getElementById("productPrice")
-                            .children()[0].children()[0].children()[0].children()[2].hasClass("price-disclaimer")
-                        priceText = gamePage.getElementById("productPrice")
-                            .children()[0].children()[0].children()[0].children()[2].children()[0].text()
-                        price = priceText.substring(1 until priceText.length - 1).toDouble()
+                        if(thing1[0].children().size==2){
+                            priceText = thing1[0].children()[1].text()
+                            sussyThing = priceText.substring(1 until priceText.length)
+                            if(sussyThing[sussyThing.length-1]=='+'){
+                                sussyThing = sussyThing.substring(0 until priceText.length-2)
+                            }
+                            price = sussyThing.toDouble()
+                            saleStatus=true
+                        }
                     } catch (e: Exception) {
                         saleStatus = false
                     }
