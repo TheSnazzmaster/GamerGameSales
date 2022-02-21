@@ -64,7 +64,7 @@ class MainViewModel : ViewModel() {
 
     fun addDummyGame() {
         _gameSaleInfoList.value?.add(GameSaleInfo("Celeste",4.99,
-            "https://www.microsoft.com/en-us/p/celeste/bwmql2rpwbhb",
+            "https://www.xbox.com/en-us/games/store/celeste/bwmql2rpwbhb",
             "https://store-images.s-microsoft.com/image/apps.21257.71633162879241707.7cf18b3b-9fa5-486f-9a68-067f06d50bf1.8f7909cf-d9a5-44aa-9901-2635255ab2ee?w=162&h=300&q=90&mode=scale",true))
     }
 

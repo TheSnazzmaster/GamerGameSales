@@ -35,7 +35,7 @@ import kotlin.concurrent.thread
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
-    private var _binding : MainFragmentBinding? = null
+    private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -49,60 +49,82 @@ class MainFragment : Fragment() {
         if (isConnected()) { //learned from https://www.youtube.com/watch?v=MMcfdEzfdB4
 
 
-        Log.i("help","load")
+            Log.i("help", "load")
 
-        lateinit var mAdapter: GameSaleInfoAdapter
-        val openWebsiteClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
-            if(gameSaleInfo.url!="") {
-                val websiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(gameSaleInfo.url))
-                this.context?.startActivity(websiteIntent)
+            lateinit var mAdapter: GameSaleInfoAdapter
+            val openWebsiteClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
+                if (gameSaleInfo.url != "") {
+                    val websiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(gameSaleInfo.url))
+                    this.context?.startActivity(websiteIntent)
+                }
             }
-        }
 
-        val removeGameClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
-            viewModel.removeGame(gameSaleInfo)
-            mAdapter.notifyDataSetChanged()
-        }
-
-        var recyclerViewList = viewModel.getSavedGameList()!!
-        mAdapter = GameSaleInfoAdapter(recyclerViewList,removeGameClickListener,openWebsiteClickListener)
-        binding.RecyclerView.adapter = mAdapter
-
-        binding.toAddGameFragmentButton.setOnClickListener {
-            rootView.findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToAddGameFragment()
-            )
-            Log.i("help",viewModel.getSavedGameList().toString())
-        }
-
-        binding.createDummyButton.setOnClickListener {
-            viewModel.addDummyGame()
-            mAdapter.notifyDataSetChanged()
-            mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
-            binding.RecyclerView.adapter = mAdapter
-            mAdapter.notifyDataSetChanged()
-        }
-
-        viewModel.gameSaleInfoList.observe(viewLifecycleOwner){newList->
-            mAdapter.notifyDataSetChanged()
-            mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
-            binding.RecyclerView.adapter = mAdapter
-            mAdapter.notifyDataSetChanged()
-            viewModel.updateGameSaleInfoPrices()
-            Log.i("help", "save")
-            Log.i("help","real"+viewModel.getSavedGameList().toString())
-        }
-
-        viewModel.updateRecyclerView.observe(viewLifecycleOwner){
-            if(it){
-                viewModel.resetUpdateVariable()
+            val removeGameClickListener: (GameSaleInfo) -> Unit = { gameSaleInfo: GameSaleInfo ->
+                viewModel.removeGame(gameSaleInfo)
                 mAdapter.notifyDataSetChanged()
-                mAdapter = GameSaleInfoAdapter(viewModel.getSavedGameList()!!,removeGameClickListener,openWebsiteClickListener)
+            }
+
+            var recyclerViewList = viewModel.getSavedGameList()!!
+            mAdapter = GameSaleInfoAdapter(
+                recyclerViewList,
+                removeGameClickListener,
+                openWebsiteClickListener
+            )
+            binding.RecyclerView.adapter = mAdapter
+
+            binding.toAddGameFragmentButton.setOnClickListener {
+                rootView.findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToAddGameFragment()
+                )
+                Log.i("help", viewModel.getSavedGameList().toString())
+            }
+
+            binding.toAboutButton.setOnClickListener {
+                rootView.findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToAboutFragment()
+                )
+            }
+
+            binding.createDummyButton.setOnClickListener {
+                viewModel.addDummyGame()
+                mAdapter.notifyDataSetChanged()
+                mAdapter = GameSaleInfoAdapter(
+                    viewModel.getSavedGameList()!!,
+                    removeGameClickListener,
+                    openWebsiteClickListener
+                )
                 binding.RecyclerView.adapter = mAdapter
                 mAdapter.notifyDataSetChanged()
-                Toast.makeText(activity,"Updated!",Toast.LENGTH_SHORT).show()
             }
-        }
+
+            viewModel.gameSaleInfoList.observe(viewLifecycleOwner) { newList ->
+                mAdapter.notifyDataSetChanged()
+                mAdapter = GameSaleInfoAdapter(
+                    viewModel.getSavedGameList()!!,
+                    removeGameClickListener,
+                    openWebsiteClickListener
+                )
+                binding.RecyclerView.adapter = mAdapter
+                mAdapter.notifyDataSetChanged()
+                viewModel.updateGameSaleInfoPrices()
+                Log.i("help", "save")
+                Log.i("help", "real" + viewModel.getSavedGameList().toString())
+            }
+
+            viewModel.updateRecyclerView.observe(viewLifecycleOwner) {
+                if (it) {
+                    viewModel.resetUpdateVariable()
+                    mAdapter.notifyDataSetChanged()
+                    mAdapter = GameSaleInfoAdapter(
+                        viewModel.getSavedGameList()!!,
+                        removeGameClickListener,
+                        openWebsiteClickListener
+                    )
+                    binding.RecyclerView.adapter = mAdapter
+                    mAdapter.notifyDataSetChanged()
+                    Toast.makeText(activity, "Updated!", Toast.LENGTH_SHORT).show()
+                }
+            }
         } else {
             val builder = activity?.let { AlertDialog.Builder(it) }
             builder?.setTitle("No Internet")
@@ -110,7 +132,8 @@ class MainFragment : Fragment() {
                 "This app needs the Internet to update prices and function. " +
                         "Please try again when you have an Internet Connection"
             )
-            builder?.setPositiveButton("Ok"
+            builder?.setPositiveButton(
+                "Ok"
             ) { _: DialogInterface, _: Int -> requireActivity().finish() }
             builder?.show()
         }
@@ -137,3 +160,15 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
+
+/*
+i fel like im losing hope
+in my body and my soul
+and the skyyyyyyyyyyyyyyyyy
+it looks so ominous
+and as time comes to a halt
+silence starts to overflow
+my criiiiiiiiiiiiiiiiiiiiies
+are inconspicuous
+*/
+

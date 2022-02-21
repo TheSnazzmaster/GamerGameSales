@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addGameFragment"
             app:destination="@id/addGameFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/addGameFragment"
@@ -23,4 +26,9 @@
             android:id="@+id/action_addGameFragment_self"
             app:destination="@id/addGameFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.honorsmobileapps.mathers.gamergamesales.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>
