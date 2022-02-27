@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.observe
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainFragment
@@ -28,16 +29,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-
-        Log.i("help", "super load")
-        viewModel.assignGameList(getGamesFromPreferences())
-        Toast.makeText(this, "Updating price info...", Toast.LENGTH_SHORT).show()
+//        Log.i("help", "super load")
+//        viewModel.assignGameList(getGamesFromPreferences())
+//        Toast.makeText(this, "Updating price info...", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.getSavedGameList()?.let { saveGamesToPreferences(it) }
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        viewModel.getSavedGameList()?.let { saveGamesToPreferences(it) }
+//    }
 
     //this saving stuff was learned from https://www.youtube.com/watch?v=8zPkbV4INGA&ab_channel=ResoCoderResoCoder
     //well i say "learned" but the code is pretty much the same because I'm not sure how much can be changed,

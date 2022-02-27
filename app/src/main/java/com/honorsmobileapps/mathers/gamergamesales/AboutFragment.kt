@@ -19,8 +19,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import androidx.work.OneTimeWorkRequest
 import com.honorsmobileapps.mathers.gamergamesales.databinding.FragmentAboutBinding
 import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBinding
+import com.honorsmobileapps.mathers.gamergamesales.ui.main.BackgroundPriceUpdater
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainFragmentDirections
 import com.honorsmobileapps.mathers.gamergamesales.ui.main.MainViewModel
 

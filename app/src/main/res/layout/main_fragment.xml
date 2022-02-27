@@ -53,6 +53,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/createDummyButton2"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/createDummyButton" />
+
     <ImageButton
         android:id="@+id/toAboutButton"
         style="@style/ButtonStyle"
@@ -61,5 +68,21 @@
         android:src="@android:drawable/ic_menu_info_details"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/writeToPrefButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="write to pref"
+        app:layout_constraintBottom_toTopOf="@+id/toAboutButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/readFromPrefButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="read from pref"
+        app:layout_constraintBottom_toTopOf="@+id/toAboutButton"
+        app:layout_constraintStart_toEndOf="@+id/writeToPrefButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

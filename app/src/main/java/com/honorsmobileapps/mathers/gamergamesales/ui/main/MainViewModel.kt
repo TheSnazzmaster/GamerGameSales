@@ -1,20 +1,18 @@
 package com.honorsmobileapps.mathers.gamergamesales.ui.main
 
-import android.app.PendingIntent.getActivity
-import android.os.Build
-import android.preference.PreferenceManager
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.work.*
 import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfo
-import com.squareup.picasso.Picasso
 import org.jsoup.Jsoup
-import java.security.AccessController.getContext
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
+
 class MainViewModel : ViewModel() {
+    val WORK_TAG = "gamer gaming drip"
     private var _gameSaleInfoList = MutableLiveData(
         mutableListOf<GameSaleInfo>( //dummy data
 //        GameSaleInfo("Fortnite 2: Fort Harder", 9.99),
@@ -63,9 +61,9 @@ class MainViewModel : ViewModel() {
     }
 
     fun addDummyGame() {
-        _gameSaleInfoList.value?.add(GameSaleInfo("Celeste",4.99,
-            "https://www.xbox.com/en-us/games/store/celeste/bwmql2rpwbhb",
-            "https://store-images.s-microsoft.com/image/apps.21257.71633162879241707.7cf18b3b-9fa5-486f-9a68-067f06d50bf1.8f7909cf-d9a5-44aa-9901-2635255ab2ee?w=162&h=300&q=90&mode=scale",true))
+        _gameSaleInfoList.value?.add(GameSaleInfo("AMOGUS",420.69,
+            "https://www.xbox.com/en-us/games/store/among-us/9ng07qjnk38j",
+            "https://cdn.discordapp.com/attachments/556649692402810880/945970438243246130/amogus_game.png",false))
     }
 
     fun search(name: String) { //dummy search thing
@@ -132,7 +130,6 @@ class MainViewModel : ViewModel() {
             else{
                 priceText = "among us"
             }
-            Log.i("help","el susso gusso " + thing1.size)
             if (priceText != "Free") {
                 try {
                     var sussyThing = priceText.substring(1 until priceText.length)
@@ -171,12 +168,33 @@ class MainViewModel : ViewModel() {
     }
 
     fun updatePrices(games: MutableList<GameSaleInfo>) {
-        for (game in games) {
-            getPrice(game,true)
-        }
+//        for (game in games) {
+//            getPrice(game,true)
+//        }
     }
 
     fun updateGameSaleInfoPrices() {
         updatePrices(_gameSaleInfoList.value!!)
+    }
+
+    fun setTestWorkRequest(){
+//        val task /* like among us!!!!11 */ = OneTimeWorkRequest.Builder(BackgroundPriceUpdater::class.java).build()
+//        WorkManager.getInstance().enqueue(task)
+
+        var constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        var periodicPriceUpdate = PeriodicWorkRequest.Builder(BackgroundPriceUpdater::class.java,15,
+            TimeUnit.MINUTES)
+            .addTag(WORK_TAG).setConstraints(constraints)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance().enqueueUniquePeriodicWork(
+            "background update work moment",
+            ExistingPeriodicWorkPolicy.KEEP, //Existing Periodic Work policy
+            periodicPriceUpdate
+        )
     }
 }

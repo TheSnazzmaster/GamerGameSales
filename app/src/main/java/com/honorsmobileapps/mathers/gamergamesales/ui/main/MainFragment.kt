@@ -24,12 +24,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfo
 import com.honorsmobileapps.mathers.gamergamesales.GameSaleInfoAdapter
 import com.honorsmobileapps.mathers.gamergamesales.R
 import com.honorsmobileapps.mathers.gamergamesales.databinding.MainFragmentBinding
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 class MainFragment : Fragment() {
@@ -97,6 +99,39 @@ class MainFragment : Fragment() {
                 mAdapter.notifyDataSetChanged()
             }
 
+            binding.createDummyButton2.setOnClickListener{
+                viewModel.setTestWorkRequest()
+
+                var constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+
+                var periodicPriceUpdate = PeriodicWorkRequest.Builder(BackgroundPriceUpdater::class.java,15,
+                    TimeUnit.MINUTES)
+                    .addTag(viewModel.WORK_TAG).setConstraints(constraints)
+                    .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+                    .build()
+
+                WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+                    "background update work moment",
+                    ExistingPeriodicWorkPolicy.KEEP, //Existing Periodic Work policy
+                    periodicPriceUpdate
+                )
+            }
+
+            binding.writeToPrefButton.setOnClickListener {
+                val prefEditor = PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                val jsonString = Gson().toJson(viewModel.getSavedGameList())
+                prefEditor.putString("games", jsonString).apply()
+            }
+
+            binding.readFromPrefButton.setOnClickListener {
+                val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+                val jsonString = preferences.getString("games", null)
+                var games: MutableList<GameSaleInfo> = Gson().fromJson(jsonString, object : TypeToken<MutableList<GameSaleInfo>>() {}.type)
+                viewModel.assignGameList(games)
+            }
+
             viewModel.gameSaleInfoList.observe(viewLifecycleOwner) { newList ->
                 mAdapter.notifyDataSetChanged()
                 mAdapter = GameSaleInfoAdapter(
@@ -162,7 +197,7 @@ class MainFragment : Fragment() {
 }
 
 /*
-i fel like im losing hope
+i feel like im losing hope
 in my body and my soul
 and the skyyyyyyyyyyyyyyyyy
 it looks so ominous
